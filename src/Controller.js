@@ -1,16 +1,17 @@
 import Task from "./task";
 import { TaskManager } from "./taskmanager";
-import { Text } from "react-native";
+import { RefreshControl } from "react-native";
 
 // const taskManager = new TaskManager
 
 export default {
-    createTask: (taskName) => {
-        let task = new Task(taskName, 20);
-        TaskManager.addTask(task)
-    },
-
-    getAllTasks: () => {
-        return (<Text>This is a Task</Text>)
-    }
+    // buttonRefresh: () => {
+    //     setRefreshing(true);
+    //     wait(200).then(() => setRefreshing(false));
+    // },
+    // clearTasks: () => {
+    //     TaskManager.removeAllTasks();
+    //     setRefreshing(true);
+    //     wait(200).then(() => setRefreshing(false));
+    // }
 }

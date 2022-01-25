@@ -32,12 +32,18 @@ export default function App() {
       onChangeText={newText => setName(newText)}
       />
       <TextInput placeholder="Urgency" /> */}
+      <View style={styles.tasksWrapper}>
+        <TouchableOpacity style={styles.input} onPress={() => TaskManager.addTask(task)}><Text>Add Task A</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.input} onPress={() => TaskManager.addTask(task2)}><Text>Add Task B</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.input} onPress={() => TaskManager.removeAllTasks()}><Text>Clear Tasks</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.input} onPress={() => window.location.reload(false)}><Text>Show Tasks</Text></TouchableOpacity>
+        
+        <View style={styles.items}>
+          <Text>{JSON.stringify(TaskManager.getAllTasks())}</Text>
+        </View>
+        
+      </View>
       
-      <TouchableOpacity onPress={() => console.log("task a pressed")}><Text>Add Task A</Text></TouchableOpacity>
-      <TouchableOpacity onPress={() => TaskManager.addTask(task2)}><Text>Add Task B</Text></TouchableOpacity>
-      <TouchableOpacity onPress={() => TaskManager.removeAllTasks()}><Text>Clear Tasks</Text></TouchableOpacity>
-      {/* <TouchableOpacity onPress={() => TaskManager.getAllTasks()}><Text>Show Tasks</Text></TouchableOpacity> */}
-      <Text>{JSON.stringify(TaskManager.getAllTasks())}</Text>
       
       {/* <Text>{[TaskManager.getAllTasks()]}</Text> */}
       

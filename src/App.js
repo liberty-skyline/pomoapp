@@ -22,13 +22,14 @@ export default function App() {
   }
   const clearTasks = () => {
     TaskManager.removeAllTasks();
-    setRefreshing(true);
-    wait(200).then(() => setRefreshing(false));
+    buttonRefresh();
   }
-
-  const task = new Task("Task", 60);
-  const task2 = new Task("Task2", 60);
-
+  const addTasks = (props) => {
+    const task = new Task(props, 60);
+    TaskManager.addTask(task);
+    buttonRefresh();
+    return task;
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -44,10 +45,9 @@ export default function App() {
       >
 
         <View style={styles.tasksWrapper}>
-          <TouchableOpacity style={styles.input} onPress={() => TaskManager.addTask(task)}><Text>Add Task A</Text></TouchableOpacity>
-          <TouchableOpacity style={styles.input} onPress={() => TaskManager.addTask(task2)}><Text>Add Task B</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.input} onPress={() => addTasks("Task 1")}><Text>Add Task A</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.input} onPress={() => addTasks("Task 2")}><Text>Add Task B</Text></TouchableOpacity>
           <TouchableOpacity style={styles.input} onPress={() => clearTasks()}><Text>Clear Tasks</Text></TouchableOpacity>
-          <TouchableOpacity style={styles.input} onPress={() => buttonRefresh()}><Text>Show Tasks</Text></TouchableOpacity>
           
           <View style={styles.items}>
             <Text>{JSON.stringify(TaskManager.getAllTasks())}</Text>

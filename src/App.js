@@ -3,7 +3,6 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, SafeAreaView, View, TouchableOpacity , ScrollView , RefreshControl } from 'react-native';
 import { TaskManager } from './taskmanager.js';
 import Task from './task.js';
-import Controller from './Controller.js';
 
 export default function App() {
 

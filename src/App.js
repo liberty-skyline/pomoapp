@@ -30,6 +30,24 @@ export default function App() {
     return task;
   }
 
+
+  const prettyifyOutput = (output) => {
+    prettyOutput = "";
+    
+    JSON.parse(output).forEach(task => {
+      let name = task.name,
+	    duration = task.duration,
+      urgency = task.urgency,
+      timeLeft = task.timeLeft,
+      id = task.id;
+
+      let taskOutput = `Task "${name}" with id ${id} and urgency ${urgency} is ${((duration - timeLeft) / duration) * 100}% complete\n`;
+      prettyOutput += taskOutput;      	  
+    });
+	  return prettyOutput;
+  }
+
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar hidden={true}/>
@@ -49,7 +67,7 @@ export default function App() {
           <TouchableOpacity style={styles.input} onPress={() => clearTasks()}><Text>Clear Tasks</Text></TouchableOpacity>
           
           <View style={styles.items}>
-            <Text>{JSON.stringify(TaskManager.getAllTasks())}</Text>
+            <Text>{prettyifyOutput(JSON.stringify(TaskManager.getAllTasks()))}</Text>
           </View>
           
         </View>

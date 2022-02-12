@@ -10,6 +10,7 @@ export const TaskManager = {
 			task.id = this.idCount;
 			this.idCount++;
 			this.taskStack.push(task);
+      this.resetOrder();
 			this.resetIds();
 		}
 	},
@@ -22,6 +23,7 @@ export const TaskManager = {
 					if(task.id == identifier || task.name == identifier) {
 						const index = this.taskStack.indexOf(task);
 						this.taskStack.splice(index, 1);
+            this.resetOrder()
 						this.resetIds();
 						return false
 					} else {
@@ -34,6 +36,7 @@ export const TaskManager = {
 
 		} else {
 			this.taskStack.shift();
+      this.resetOrder();
 			this.resetIds();
 		}
 	},
@@ -51,12 +54,25 @@ export const TaskManager = {
 
 	resetIds() {
 		let idIndex = 0;
-		for(let i=0; i < this.taskStack.length;i++) {
+		for(let i=0; i < this.taskStack.length; i++) {
 			this.taskStack[i].id = idIndex;
 			idIndex++;
 		}
 		this.idCount = idIndex;
 	},
+
+  resetOrder() {
+    let taskBuffer = [];
+    const urgencies = ["highest", "high", "none", "low", "lowest"];
+    for(let i=0; i<urgencies.length; i++) {
+      for(let j=0; j < this.taskStack.length; j++) {
+        if(this.taskStack[j].urgency == urgencies[i]) {
+          taskBuffer.push(this.taskStack[j]);
+        }
+      } 
+    }
+    this.taskStack = taskBuffer;
+  },
 
 	removeAllTasks() {
 		this.taskStack = [];

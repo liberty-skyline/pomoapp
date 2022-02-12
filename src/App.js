@@ -12,12 +12,12 @@ export default function App() {
   const [refreshing, setRefreshing] = React.useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
-    wait(200).then(() => setRefreshing(false));
+    wait(2000).then(() => setRefreshing(false));
   }, []);
   
   const buttonRefresh = () => {
     setRefreshing(true);
-    wait(200).then(() => setRefreshing(false));
+    setRefreshing(false);
   }
   const clearTasks = () => {
     TaskManager.removeAllTasks();
@@ -29,7 +29,16 @@ export default function App() {
     buttonRefresh();
     return task;
   }
-
+  
+  const prettyifyOutput = (output) => {
+    prettyOutput = "";
+    
+    JSON.parse(output).forEach(task => {
+      let name = task.name,
+	    duration = task.duration,
+      urgency = task.urgency,
+      timeLeft = task.timeLeft,
+      id = task.id;
 
   const prettyifyOutput = (output) => {
     prettyOutput = "";
@@ -41,13 +50,14 @@ export default function App() {
       timeLeft = task.timeLeft,
       id = task.id;
 
-      let taskOutput = `Task "${name}" with id ${id} and urgency ${urgency} is ${((duration - timeLeft) / duration) * 100}% complete\n`;
+      let taskOutput = `Task: "${name}" \nID: ${id} \nUrgency: ${urgency} \n${((duration - timeLeft) / duration) * 100}% complete\n\n`;
       prettyOutput += taskOutput;      	  
     });
 	  return prettyOutput;
   }
 
 
+  
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar hidden={true}/>

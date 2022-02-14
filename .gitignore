@@ -12,3 +12,7 @@ web-build/
 
 # macOS
 .DS_Store
+
+# temp file for node testing
+
+src/temp.js

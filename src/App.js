@@ -17,7 +17,7 @@ export default function App() {
   
   const buttonRefresh = () => {
     setRefreshing(true);
-    setRefreshing(false);
+    wait(0).then(() => setRefreshing(false));
   }
   const clearTasks = () => {
     TaskManager.removeAllTasks();
@@ -30,16 +30,6 @@ export default function App() {
     return task;
   }
   
-  const prettyifyOutput = (output) => {
-    prettyOutput = "";
-    
-    JSON.parse(output).forEach(task => {
-      let name = task.name,
-	    duration = task.duration,
-      urgency = task.urgency,
-      timeLeft = task.timeLeft,
-      id = task.id;
-
   const prettyifyOutput = (output) => {
     prettyOutput = "";
     

@@ -4,9 +4,11 @@ import TaskManager from "./taskmanager.mjs";
 export const Timer = {
 	time: 1500,
 	intervalID: null,
+  timerRunning: false,
 
 	startTimer() {
 		this.intervalID = setInterval(this.timerLoop.bind(this), 1000);
+    this.timerRunning = true;
 	},
 
 	stopTimer() {
@@ -20,12 +22,12 @@ export const Timer = {
     }
     
 		this.intervalID ? clearInterval(primitiveID) : null;
+    this.timerRunning = false;
 	},
 
 	timerLoop() {
 		if(TaskManager.taskStack.length <= 0) {
       this.stopTimer()
-      console.log("HI");
       return;
 		} else {
 			if(this.time <= 0) {
@@ -42,5 +44,16 @@ export const Timer = {
 	runBreak() {
 		//setTimeout or something that takes 5 min + other funcs
 		console.log("Break done!");
-	}
+	},
+  
+  getCurrentProgress() {
+    if(this.timerRunning) {
+      let left = TaskManager.getTask().timeLeft;
+      let total = TaskManager.getTask().duration;
+      return Math.round(((total - left) / total) * 100);
+    } else {
+      return undefined;
+    }
+  }
+  
 }

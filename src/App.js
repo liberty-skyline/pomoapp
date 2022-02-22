@@ -1,10 +1,56 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, SafeAreaView, View, TouchableOpacity , ScrollView , RefreshControl } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, View, TouchableOpacity , ScrollView , RefreshControl, Button } from 'react-native';
 import { TaskManager } from './taskmanager.js';
 import Task from './task.js';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-export default function App() {
+const App = () => {
+  return(
+    <NavigationContainer>
+      <Stack.Navigator>
+      <Stack.Screen 
+          name="Home" 
+          component={HomeScreen}
+        />
+        <Stack.Screen 
+          name="Tasks" 
+          component={TasksScreen}
+          options={{title: "Welcome"}}
+        />
+        <Stack.Screen 
+          name="Timer" 
+          component={TimerScreen}
+        />
+        
+      
+      </Stack.Navigator>
+    </NavigationContainer>
+    
+  );
+}
+
+const TasksScreen = ({ navigation }) => {
+  return(
+    <Button 
+            title="Start Session"
+            onPress={ () => navigation.navigate("Timer") }
+          />
+  );
+}
+
+const TimerScreen = ({ navigation }) => {
+  return(
+    <View>
+      <Text>This is the Timer Page</Text>
+    </View>
+  );
+}
+
+const Stack = createNativeStackNavigator();
+
+const Home = ({ navigation }) => {
 
   const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
@@ -14,7 +60,6 @@ export default function App() {
     setRefreshing(true);
     wait(2000).then(() => setRefreshing(false));
   }, []);
-  
   const buttonRefresh = () => {
     setRefreshing(true);
     wait(0).then(() => setRefreshing(false));
@@ -23,8 +68,8 @@ export default function App() {
     TaskManager.removeAllTasks();
     buttonRefresh();
   }
-  const addTasks = (props) => {
-    const task = new Task(props, 60);
+  const addTask = (taskName) => {
+    const task = new Task(taskName, 60);
     TaskManager.addTask(task);
     buttonRefresh();
     return task;
@@ -49,18 +94,36 @@ export default function App() {
 
   
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar hidden={true}/>
-      <ScrollView
-        contentContainerStyle={styles.scrollView}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-          />
-        }
-      >
+    <NavigationContainer>
+        <SafeAreaView style={styles.container}>
+          <StatusBar hidden={true}/>
+          <ScrollView
+            contentContainerStyle={styles.scrollView}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+              />
+            }
+          >
 
+            <View style={styles.tasksWrapper}>
+              <TouchableOpacity style={styles.input} onPress={() => addTask("Task 1")}><Text>Add Task A</Text></TouchableOpacity>
+              <TouchableOpacity style={styles.input} onPress={() => addTask("Task 2")}><Text>Add Task B</Text></TouchableOpacity>
+              <TouchableOpacity style={styles.input} onPress={() => clearTasks()}><Text>Clear Tasks</Text></TouchableOpacity>
+                
+              <View style={styles.items}>
+                <Text>{JSON.stringify(TaskManager.getAllTasks())}</Text>
+              </View>
+                
+            </View>
+          </ScrollView>
+          <Button 
+            title="Start Session"
+            onPress={ () => navigation.navigate("Timer") }
+          />
+
+<<<<<<< Updated upstream
         <View style={styles.tasksWrapper}>
           <TouchableOpacity style={styles.input} onPress={() => addTasks("Task 1")}><Text>Add Task A</Text></TouchableOpacity>
           <TouchableOpacity style={styles.input} onPress={() => addTasks("Task 2")}><Text>Add Task B</Text></TouchableOpacity>
@@ -74,6 +137,11 @@ export default function App() {
       
       </ScrollView>
     </SafeAreaView>
+=======
+        </SafeAreaView>
+    </NavigationContainer>
+    
+>>>>>>> Stashed changes
   );
 }
 
@@ -121,3 +189,5 @@ const styles = StyleSheet.create({
     borderWidth: 1,
   },
 });
+
+export default App;

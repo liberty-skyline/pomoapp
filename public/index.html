@@ -6,9 +6,33 @@
     <title></title>
     <!-- index stylesheet -->
     <link rel="stylesheet" type="text/css" href="./css/index.css" />
-
-  </head>
+    <!-- replace the src to the minified versions in ./scripts/ -->
+    <script src="./scripts/task.js"></script>
+    <script src="./scripts/taskmanager.js"></script>
+    <script src="./scripts/timer.js"></script>
+ </head>
   <body>
+    <div id="wrapper">
+      <p id="output">Hi</p>
+      <button onclick="a()">Click me</button>
+    </div>
+    <script> 
+      task1 = new Task("math", 10);
+      task2 = new Task("english", 30, "low");
+      task3 = new Task("science", 20, "high");
+      task4 = new Task("history", 20);
+      TaskManager.addTask(task1);
+      TaskManager.addTask(task2);
+      TaskManager.addTask(task3);
+      TaskManager.addTask(task4);
 
+      Timer.startTimer();
+      const a = () => {
+        //while(Timer.timerRunning) {
+          document.getElementById("output").innerHTML = (Timer.getCurrentProgress());
+        //}
+      }
+      
+    </script>
   </body>
 </html>

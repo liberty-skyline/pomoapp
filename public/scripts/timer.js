@@ -1,5 +1,5 @@
-//import Task from "./tasks.mjs";
-//import TaskManager from "./taskmanager.mjs";
+//import Task from "./task.js";
+//import { TaskManager } from "./taskmanager.js";
 
 /*export */const Timer = {
 	time: 1500,
@@ -7,21 +7,25 @@
   timerRunning: false,
 
 	startTimer() {
-		this.intervalID = setInterval(this.timerLoop.bind(this), 1000);
-    this.timerRunning = true;
+    if(TaskManager.getTask()) {
+      this.intervalID = setInterval(this.timerLoop.bind(this), 1000);
+      this.timerRunning = true;
+    } else {
+      return undefined;
+    }
 	},
 
 	stopTimer() {
 		console.log("All done!");
     //So this should never come up on the web, but in node, intervalID is some funky object and this is how you get the id
-    let primitiveID;
+    /*let primitiveID;
     if(this.intervalID[Symbol.toPrimitive]()) {
       primitiveID = this.intervalID[Symbol.toPrimitive]();
     } else {
       primitiveID = this.intervalID;
-    }
+    }*/
     
-		this.intervalID ? clearInterval(primitiveID) : null;
+		this.intervalID ? clearInterval(this.intervalID) : null;
     this.timerRunning = false;
 	},
 
@@ -47,17 +51,7 @@
 	},
   
   getCurrentProgress() {
-    if(this.timerRunning) {
-      let left = this.time;
-      let total = 1500;
-      return Math.round(((total - left) / total) * 100);
-    } else {
-      return undefined;
-    }
-  },
-  
-  getTaskProgress() {
-    if(this.timerRunning) {
+    if(this.timerRunning && TaskManager.getTask()) {
       let left = TaskManager.getTask().timeLeft;
       let total = TaskManager.getTask().duration;
       return Math.round(((total - left) / total) * 100);
